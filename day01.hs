@@ -2,15 +2,14 @@ import Data.List
 
 main = let day = "01" in do
   putStrLn ("Opening Advent calendar door "<>day<>" where")
-  txt <- init <$> readFile (day<>".txt")
+  txt <- readFile (day<>".txt")
   putStrLn ("  part 1 = "<>show (solve1 txt))
   putStrLn ("  part 2 = "<>show (solve2 txt))
 
 solveWith :: [String] -> String -> Int
 solveWith tokens = sum . map perLine . lines
   where perLine = read . (\ds -> [head ds,last ds]) . concatMap prefixMatches . tails
-        prefixMatches str = [digit | (token,digit)<-tokenDict, token`isPrefixOf`str]
-        tokenDict = zip tokens (cycle ['0'..'9'])
+        prefixMatches str = [digit | (token,digit) <- tokens`zip`cycle ['0'..'9'], token`isPrefixOf`str]
 
 solve1 :: String -> Int
 solve1 = solveWith (map pure ['0'..'9'])
