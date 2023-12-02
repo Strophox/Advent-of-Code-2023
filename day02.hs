@@ -1,0 +1,46 @@
+import Data.List
+import Control.Arrow
+
+main = let day = "02" in do
+  putStrLn ("Opening Advent calendar door "<>day<>" where")
+  txt <- readFile (day<>".txt")
+  putStrLn ("  part 1 = "<>show (solve1 txt))
+  putStrLn ("  part 2 = "<>show (solve2 txt))
+
+solve1 = sum . map fst . filter (all valid . snd) . parse
+  where valid cset = red cset <= 12 && green cset <= 13 && blue cset <= 14
+
+solve2 = sum . map perGame . parse
+  where perGame = multiply . foldr max' (0,0,0) . snd
+        max' c (r,g,b) = (max (red c) r, max (green c) g, max (blue c) b)
+        multiply (r,g,b) = r * g * b
+
+data CSet = CSet
+  { red   :: Int
+  , green :: Int
+  , blue  :: Int
+  }
+
+parse :: String -> [(Int,[CSet])]
+parse = map perLine . lines
+  where perLine = (read *** (map perSet . wordsBy (==';') . drop 1)) . break (==':') . drop 5
+        perSet = foldr add CSet{red=0,green=0,blue=0} . map perEntry . wordsBy (==',')
+        perEntry = ((read . (!!0)) &&& (!!1)) . words
+        add (i,color) cset = case color of
+          "red" -> cset { red = i }
+          "blue" -> cset { blue = i }
+          "green" -> cset { green = i }
+{-
+  "3 blue, 4 red"
+    {-
+      "3 blue", " 4 red"
+    -}
+  " 1 red, 2 green, 6 blue"
+  " 2 green"
+-}
+
+wordsBy :: (Char -> Bool) -> String -> [String]
+wordsBy p s =  case dropWhile p s of
+                      "" -> []
+                      s' -> w : wordsBy p s''
+                            where (w, s'') = break p s'

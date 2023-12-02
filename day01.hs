@@ -6,16 +6,16 @@ main = let day = "01" in do
   putStrLn ("  part 1 = "<>show (solve1 txt))
   putStrLn ("  part 2 = "<>show (solve2 txt))
 
+solve1 :: String -> Int
+solve1 = solveWith (map pure ['1'..'9'])
+
+solve2 :: String -> Int
+solve2 = solveWith (map pure ['1'..'9'] ++ ["one","two","three","four","five","six","seven","eight","nine"]) -- NOTE maybe need to remove "zero" ?
+
 solveWith :: [String] -> String -> Int
 solveWith tokens = sum . map perLine . lines
   where perLine = (\ds -> read [head ds,last ds]) . concatMap prefixMatches . tails
-        prefixMatches str = [digit | (token,digit) <- tokens`zip`cycle ['0'..'9'], token`isPrefixOf`str]
-
-solve1 :: String -> Int
-solve1 = solveWith (map pure ['0'..'9'])
-
-solve2 :: String -> Int
-solve2 = solveWith (map pure ['0'..'9'] ++ ["zero","one","two","three","four","five","six","seven","eight","nine"])
+        prefixMatches str = [digit | (token,digit) <- tokens`zip`cycle ['1'..'9'], token`isPrefixOf`str]
 
 {-NOTE solution variant
 aux :: (String -> [Char]) -> String -> Int
