@@ -1,4 +1,4 @@
-import Data.List
+import Data.List.Split
 import Control.Arrow
 
 main = let day = "02" in do
@@ -23,8 +23,8 @@ data CSet = CSet
 
 parse :: String -> [(Int,[CSet])]
 parse = map perLine . lines
-  where perLine = (read *** (map perSet . wordsBy (==';') . drop 1)) . break (==':') . drop 5
-        perSet = foldr add CSet{red=0,green=0,blue=0} . map perEntry . wordsBy (==',')
+  where perLine = (read *** (map perSet . splitOn "; " . drop 1)) . break (==':') . drop 5
+        perSet = foldr add CSet{red=0,green=0,blue=0} . map perEntry . splitOn ", "
         perEntry = ((read . (!!0)) &&& (!!1)) . words
         add (i,color) cset = case color of
           "red" -> cset { red = i }
@@ -38,9 +38,10 @@ parse = map perLine . lines
   " 1 red, 2 green, 6 blue"
   " 2 green"
 -}
-
+{-
 wordsBy :: (Char -> Bool) -> String -> [String]
 wordsBy p s =  case dropWhile p s of
                       "" -> []
                       s' -> w : wordsBy p s''
                             where (w, s'') = break p s'
+-}
