@@ -32,18 +32,3 @@ parse = map perLine . lines
           "red" -> cset { red = i }
           "blue" -> cset { blue = i }
           "green" -> cset { green = i }
-{-
-  "3 blue, 4 red"
-    {-
-      "3 blue", " 4 red"
-    -}
-  " 1 red, 2 green, 6 blue"
-  " 2 green"
--}
-{-
-wordsBy :: (Char -> Bool) -> String -> [String]
-wordsBy p s =  case dropWhile p s of
-                      "" -> []
-                      s' -> w : wordsBy p s''
-                            where (w, s'') = break p s'
--}

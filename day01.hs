@@ -10,7 +10,7 @@ solve1 :: String -> Int
 solve1 = solveWith (map pure ['1'..'9'])
 
 solve2 :: String -> Int
-solve2 = solveWith (map pure ['1'..'9'] ++ ["one","two","three","four","five","six","seven","eight","nine"]) -- NOTE maybe need to remove "zero" ?
+solve2 = solveWith (map pure ['1'..'9'] ++ ["one","two","three","four","five","six","seven","eight","nine"])
 
 solveWith :: [String] -> String -> Int
 solveWith tokens = sum . map perLine . lines
@@ -30,7 +30,7 @@ solve2 = aux (concatMap prefixMatches . inits)
         dict = zip  ["0","1","2","3","4","5","6","7","8","9","zero","one","two","three","four","five","six","seven","eight","nine"] (cycle ['0'..'9'])
 -}
 
-{-NOTE faulty - parses "oneight" as only "1"
+{-NOTE previous, faulty - parses "oneight" as only "1" because discarding
 lineDigits2 :: String -> String
 lineDigits2 = fst . foldl step ([],[])
   where step (ds,cs) c = maybe (ds,cs++[c]) (\d -> (ds++[d],[])) (dict`parseMatch`(cs++[c]))
