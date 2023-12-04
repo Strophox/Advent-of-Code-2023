@@ -20,13 +20,14 @@ solve2 txt = sum . map product . filter ((==3).length) . map nub . (\(nums,stars
         (maxY,maxX) = (length (lines txt) - 1, length (head (lines txt)) - 1)
 
 adjacent :: Int -> Int -> (Int,(Int,Int)) -> [(Int,Int)]
-adjacent maxY maxX (y,(x0,x1)) = filter inside $ [(y,x0-1),(y-1,x0-1),(y+1,x0-1)]
+adjacent maxY maxX (y,(x0,x1)) = filter valid $
+          [(y,x0-1),(y-1,x0-1),(y+1,x0-1)]
           ++ [(y,x1+1),(y-1,x1+1),(y+1,x1+1)]
           ++ map ((,) (y-1)) [x0..x1]
           ++ map ((,) (y+1)) [x0..x1]
-  where inside (y,x) = 0<=y && y<=maxY && 0<=x && x<=maxX
+  where valid (y,x) = 0<=y && y<=maxY && 0<=x && x<=maxX
 
--- (numcoords [(n,(y,(x0,x1)))], starcoords [(y,x)])
+-- (numcoords,starcoords) = ([(n,(y,(x0,x1)))], [(y,x)])
 parse :: String -> ([(Int, (Int,(Int,Int)))], [(Int,Int)])
 parse = (concatMap fst &&& concatMap snd) . map (uncurry perLine) . zip [0..] . lines
   where perLine y = (map (perDigitgroup y) . filter (isDigit . head) &&& map (perStargroup y) . filter (isStar . head)) . groupBy eqRel . zip [0..]
