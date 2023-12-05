@@ -11,28 +11,28 @@ main = let day = "05" in do
   putStrLn ("  part 1 = "<>show (solve1 txt))
   putStrLn ("  part 2 = "<>show (solve2 txt))
 
-solve1 = minimum . applyAll . (id *** chainl . map converter) . parse
-  where applyAll (seeds, f) = map f seeds
+solve1 = minimum . mapAll . (id *** chainl . map converter) . parse
+  where mapAll (seeds, f) = map f seeds
         converter :: [(Int,Int,Int)] -> Int -> Int
         converter [] v = v
         converter ((dst,src,len):mappings) v
-          | src <= v&&v < src+len = v - src + dst
+          | src <= v&&v < src+len = (+) (dst-src) v
           | otherwise             = converter mappings v
 
-solve2 = fst . minimum . mapplyAll . (intervals *** bindl . map iconverter) . parse
-  where mapplyAll (vals, m) = concatMap m vals
+solve2 = fst . minimum . catMapAll . (intervals *** bindl . map iconverter) . parse
+  where catMapAll (vals, m) = concatMap m vals
         iconverter :: [(Int,Int,Int)] -> (Int,Int) -> [(Int,Int)]
         iconverter [] i = [i]
         iconverter ((dst,src,len):mappings) i =
-          let (moved,leftovers) = translate (dst-src) (src,src+len-1) i
+          let (moved,leftovers) = mapWithin (src,src+len-1) (dst-src) i
           in moved ++ concatMap (iconverter mappings) leftovers
           where
-            translate d (l,r) (il,ir)
+            mapWithin (l,r) d (il,ir)
               | r< il || ir <l = ([], [(il,ir)])
-              | l<=il && ir<=r = ([(il+d,ir+d)], [])
-              | l<=il && r <ir = ([(il+d,r+d)], [(r+1,ir)])
-              | il< l && ir<=r = ([(l+d,ir+d)], [(il,l-1)])
-              | il< l && r <ir = ([(l+d,r+d)], [(il,l-1),(r+1,ir)])
+              | l<=il && ir<=r = ([(il+d,ir+d)], [                 ])
+              | l<=il && r <ir = ([(il+d, r+d)], [         (r+1,ir)])
+              | il< l && ir<=r = ([( l+d,ir+d)], [(il,l-1)         ])
+              | il< l && r <ir = ([( l+d, r+d)], [(il,l-1),(r+1,ir)])
         intervals [] = []
         intervals (start:len:rest) = (start,start+len-1) : intervals rest
 
