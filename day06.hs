@@ -9,7 +9,7 @@ main = let day = "06" in do
 solve1 = product . map perRace . parse1
   where perRace (t,d) = length [t' | t'<-[0..t], t'*(t-t') > d]
 
-solve2 = (\[x0,x1] -> floor x1 - ceiling x0 + 1) . roots . parse2
+solve2 = (\[x0,x1] -> ceiling x1 - floor x0 - 1) . roots . parse2
   where roots (t,d) =
           [ (-t + sqrt (t^2 - 4*d)) / (-2)
           , (-t - sqrt (t^2 - 4*d)) / (-2)
