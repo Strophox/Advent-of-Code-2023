@@ -1,7 +1,7 @@
 import Data.List (intersect)
 import Control.Arrow (first,(&&&))
 
-main = (solve1 &&& solve2) <$> parse <$> readFile "04.txt" >>= print
+main = readFile "04.txt" >>= print . (solve1 &&& solve2) . parse
 
 parse = map (length . uncurry intersect . break (=="|") . words . drop 9) . lines
 
