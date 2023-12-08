@@ -11,11 +11,12 @@ main = let day = "08" in do
 solve1 = walkFrom "AAA" (=="ZZZ") . parse
 
 solve2 = foldr lcm 1 . walkAll . parse
-  where walkAll dt@(_,table) = [walkFrom node (('Z'==).last) dt | (node,_)<-toList table, 'A'==last node]
+  where walkAll dt = [walkFrom node (('Z'==).last) dt | (node,_)<-toList (snd dt), 'A'==last node]
 
-walkFrom start isEnd (dirs,table) = length $ takeWhile (not.isEnd.snd) $ walk
-  where walk = iterate step (cycle dirs, start)
-        step (d:ds, node) = (ds, (if d=='L' then fst else snd) (table ! node))
+walkFrom start isEnd (dirs,table) = walk (cycle dirs, start)
+  where walk (d:ds, node)
+          | isEnd node = 0
+          | otherwise  = 1 + walk (ds, (if d=='L' then fst else snd) (table!node))
 
 parse :: String -> ([Char], Map String (String,String))
 parse = fmap (fromList . map perLine . lines) . split "\n\n"
@@ -23,6 +24,12 @@ parse = fmap (fromList . map perLine . lines) . split "\n\n"
 
 split :: String -> String -> (String, String)
 split str = (\(a:b:_) -> (a,b)) . splitOn str
+
+{-NOTE old solution
+walkFrom start isEnd (dirs,table) = length $ takeWhile (not.isEnd.snd) $ walk
+  where walk = iterate step (cycle dirs, start)
+        step (d:ds, node) = (ds, (if d=='L' then fst else snd) (table ! node))
+-}
 
 {-NOTE old solution
 type Node = String
