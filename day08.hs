@@ -1,4 +1,4 @@
-import Data.List
+import Data.Bool (bool)
 import Data.List.Split (splitOn)
 import Data.Map (Map,fromList,(!),keys)
 
@@ -16,7 +16,7 @@ solve2 = foldr lcm 1 . walkAll . parse
 walkFrom start isEnd (dirs,table) = walk (cycle dirs, start)
   where walk (d:ds, node)
           | isEnd node = 0
-          | otherwise  = 1 + walk (ds, (if d=='L' then fst else snd) (table!node))
+          | otherwise  = 1 + walk (ds, bool fst snd (d=='R') (table ! node))
 
 parse :: String -> ([Char], Map String (String,String))
 parse = fmap (fromList . map perLine . lines) . split "\n\n"
