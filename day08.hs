@@ -23,7 +23,6 @@ parse = fmap (fromList . map perLine . lines) . split "\n\n"
   where perLine = fmap (split ", " . init . tail) . split " = "
         split str = (\(a:b:_) -> (a,b)) . splitOn str
 
-
 {-NOTE old solution
 walkFrom start isEnd (dirs,table) = length $ takeWhile (not.isEnd.snd) $ walk
   where walk = iterate step (cycle dirs, start)
