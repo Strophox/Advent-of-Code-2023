@@ -8,18 +8,19 @@ main = let day = "08" in do
   putStrLn ("  part 1 = "<>show (solve1 txt))
   putStrLn ("  part 2 = "<>show (solve2 txt))
 
-solve1 = walk "AAA" (=="ZZZ") . parse
+solve1 = walk "AAA" (=="ZZZ") . parse'
 
-solve2 = foldr lcm 1 . walkAll . parse
+solve2 = foldr lcm 1 . walkAll . parse'
   where walkAll dt = [ walk node (('Z'==).last) dt
                       | node<-keys (snd dt), (('A'==).last) node ]
 
-walk node isEnd (d:dirs,table)
+walk :: String -> (String -> Bool) -> ([Char],Map String (String,String)) -> Int
+walk node isEnd (d:dirs, table)
   | isEnd node = 0
-  | otherwise  = 1 + walk (if d=='L' then fst else snd) (table!node)) isEnd (dirs,table)
+  | otherwise  = 1 + walk ((if d=='L' then fst else snd) (table!node)) isEnd (dirs,table)
 
-parse :: String -> ([Char], Map String (String,String))
-parse = (cycle *** fromList) . fmap (map perLine . lines) . split "\n\n"
+parse' :: String -> ([Char], Map String (String,String))
+parse' = (cycle *** fromList) . fmap (map perLine . lines) . split "\n\n"
   where perLine = fmap (split ", " . init . tail) . split " = "
         split str = (\(a:b:_) -> (a,b)) . splitOn str
 
