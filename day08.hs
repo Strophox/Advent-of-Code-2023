@@ -1,6 +1,6 @@
-import Data.Bool (bool)
 import Data.List.Split (splitOn)
 import Data.Map (Map,fromList,(!),keys)
+import Control.Arrow ((***))
 
 main = let day = "08" in do
   putStrLn ("Opening Advent calendar door "<>day<>" where")
@@ -8,20 +8,29 @@ main = let day = "08" in do
   putStrLn ("  part 1 = "<>show (solve1 txt))
   putStrLn ("  part 2 = "<>show (solve2 txt))
 
-solve1 = walkFrom "AAA" (=="ZZZ") . parse
+solve1 = walk "AAA" (=="ZZZ") . parse
 
 solve2 = foldr lcm 1 . walkAll . parse
-  where walkAll dt = [walkFrom node (('Z'==).last) dt | node<-keys (snd dt), (('A'==).last) node]
+  where walkAll dt = [ walk node (('Z'==).last) dt
+                      | node<-keys (snd dt), (('A'==).last) node ]
+
+walk node isEnd (d:dirs,table)
+  | isEnd node = 0
+  | otherwise  = 1 + walk (if d=='L' then fst else snd) (table!node)) isEnd (dirs,table)
+
+parse :: String -> ([Char], Map String (String,String))
+parse = (cycle *** fromList) . fmap (map perLine . lines) . split "\n\n"
+  where perLine = fmap (split ", " . init . tail) . split " = "
+        split str = (\(a:b:_) -> (a,b)) . splitOn str
+
+{-NOTE old solution
+import Data.Bool (bool)
 
 walkFrom start isEnd (dirs,table) = walk (cycle dirs, start)
   where walk (d:ds, node)
           | isEnd node = 0
           | otherwise  = 1 + walk (ds, bool fst snd (d=='R') (table ! node))
-
-parse :: String -> ([Char], Map String (String,String))
-parse = fmap (fromList . map perLine . lines) . split "\n\n"
-  where perLine = fmap (split ", " . init . tail) . split " = "
-        split str = (\(a:b:_) -> (a,b)) . splitOn str
+-}
 
 {-NOTE old solution
 walkFrom start isEnd (dirs,table) = length $ takeWhile (not.isEnd.snd) $ walk
