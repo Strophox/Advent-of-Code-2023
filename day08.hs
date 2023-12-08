@@ -1,6 +1,6 @@
 import Data.List
 import Data.List.Split (splitOn)
-import Data.Map (Map,fromList,toList,(!))
+import Data.Map (Map,fromList,(!),keys)
 
 main = let day = "08" in do
   putStrLn ("Opening Advent calendar door "<>day<>" where")
@@ -11,7 +11,7 @@ main = let day = "08" in do
 solve1 = walkFrom "AAA" (=="ZZZ") . parse
 
 solve2 = foldr lcm 1 . walkAll . parse
-  where walkAll dt = [walkFrom node (('Z'==).last) dt | (node,_)<-toList (snd dt), 'A'==last node]
+  where walkAll dt = [walkFrom node (('Z'==).last) dt | node<-keys (snd dt), (('A'==).last) node]
 
 walkFrom start isEnd (dirs,table) = walk (cycle dirs, start)
   where walk (d:ds, node)
