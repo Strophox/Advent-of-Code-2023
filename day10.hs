@@ -12,21 +12,13 @@ solve1 = maximum . elems . uncurry runBfs . parse
 solve2 txt = length . filter isInside . filter (`notMember`dists) $ A.indices arr
   where (arr,start) = parse txt
         dists = runBfs arr start
-        isInside node = odd (crossings node (Neutral,0))
-        crossings :: (Int,Int) -> (State,Int) -> Int
-        crossings (x,y) (state, n)
-          | x < 0                 = n
-          | (x,y)`notMember`dists = crossings (x-1,y) (state, n)
-          | otherwise             = crossings (x-1,y) (case arr A.! (x,y) of
-            '7' -> (FromBot, n)
-            'L' -> (Neutral, if state==FromBot then n+1 else n)
-            'J' -> (FromTop, n)
-            'F' -> (Neutral, if state==FromTop then n+1 else n)
-            '|' -> (Neutral, n+1)
-            _   -> (state, n) )
-
-data State = FromTop | FromBot | Neutral
-  deriving (Eq)
+        isInside node = odd (crossings node 0)
+        crossings :: (Int,Int) -> Int -> Int
+        crossings (x,y) n
+          | x < 0     = n
+          | (x,y)`notMember`dists || arr A.! (x,y) `notElem` "|LJ"
+                      = crossings (x-1,y) n
+          | otherwise = crossings (x-1,y) (n+1)
 
 runBfs :: A.Array (Int,Int) Char -> (Int,Int) -> Map (Int,Int) Int
 runBfs arr start = bfs (singleton start 0) [start]
@@ -56,3 +48,24 @@ parse = fixStart . makeArray . makeAssocs
                    + (if arr A.! (x,y+1) `elem` "J|L" then 8 else 0)
             fixedArr = arr A.// [(start,"...L.-J..F|.7..." !! dirVal)]
           in (fixedArr,start)
+
+{-NOTE old solution
+solve2 txt = length . filter isInside . filter (`notMember`dists) $ A.indices arr
+  where (arr,start) = parse txt
+        dists = runBfs arr start
+        isInside node = odd (crossings node (Neutral,0))
+        crossings :: (Int,Int) -> (State,Int) -> Int
+        crossings (x,y) (state, n)
+          | x < 0                 = n
+          | (x,y)`notMember`dists = crossings (x-1,y) (state, n)
+          | otherwise             = crossings (x-1,y) (case arr A.! (x,y) of
+            '7' -> (FromBot, n)
+            'L' -> (Neutral, if state==FromBot then n+1 else n)
+            'J' -> (FromTop, n)
+            'F' -> (Neutral, if state==FromTop then n+1 else n)
+            '|' -> (Neutral, n+1)
+            _   -> (state, n) )
+
+data State = FromTop | FromBot | Neutral
+  deriving (Eq)
+-}
