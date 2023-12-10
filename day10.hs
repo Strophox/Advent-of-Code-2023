@@ -1,5 +1,6 @@
-import qualified Data.Array as A
-import Data.Map.Strict (Map,(!),insert,singleton,notMember,elems)
+import Data.Array
+import Data.Map.Strict (Map,insert,singleton,notMember)
+import qualified Data.Map.Strict as Map
 
 main = let day = "10" in do
   putStrLn ("Opening Advent calendar door "<>day<>" where")
@@ -7,47 +8,39 @@ main = let day = "10" in do
   putStrLn ("  part 1 = "<>show (solve1 txt))
   putStrLn ("  part 2 = "<>show (solve2 txt))
 
-solve1 = maximum . elems . uncurry runBfs . parse
+solve1 = maximum . Map.elems . uncurry runBfs . parse
 
-solve2 txt = length . filter isInside . filter (`notMember`dists) $ A.indices arr
-  where (arr,start) = parse txt
-        dists = runBfs arr start
-        isInside node = odd (crossings node 0)
-        crossings :: (Int,Int) -> Int -> Int
-        crossings (x,y) n
+solve2 txt = length . filter (odd . crossings 0) . filter (`notMember`dists) $ indices grid
+  where (grid,start) = parse txt
+        dists = runBfs grid start
+        crossings n (x,y)
           | x < 0     = n
-          | (x,y)`notMember`dists || arr A.! (x,y) `notElem` "|LJ"
-                      = crossings (x-1,y) n
-          | otherwise = crossings (x-1,y) (n+1)
+          | (x,y)`notMember`dists || grid!(x,y) `notElem` "|LJ"
+                      = crossings n (x-1,y)
+          | otherwise = crossings (n+1) (x-1,y)
 
-runBfs :: A.Array (Int,Int) Char -> (Int,Int) -> Map (Int,Int) Int
-runBfs arr start = bfs (singleton start 0) [start]
+runBfs :: Array (Int,Int) Char -> (Int,Int) -> Map (Int,Int) Int
+runBfs grid start = bfs (singleton start 0) [start]
   where bfs dists []           = dists
-        bfs dists (node:queue) = let
-            newNodes = filter (`notMember`dists) (neighbors node)
-            dists' = foldr (`insert`(dists!node + 1)) dists newNodes
-          in bfs dists' (queue++newNodes)
-        neighbors (x,y) =
-          let (l,r,u,d) = ((x-1,y),(x+1,y),(x,y-1),(x,y+1))
-          in case arr A.! (x,y) of
-            '7' -> [l,d]
-            'L' -> [r,u]
-            'J' -> [l,u]
-            'F' -> [r,d]
-            '|' -> [u,d]
-            '-' -> [l,r]
+        bfs dists (node:queue) = bfs dists' (queue++newNodes)
+          where newNodes = filter (`notMember`dists) (neighbors node)
+                dists'   = foldr (`insert`(dists Map.! node + 1)) dists newNodes
+        neighbors (x,y) = case grid!(x,y) of
+          'L' -> [u,r] ; '-' -> [l,r] ; 'J' -> [l,u]
+          'F' -> [d,r] ; '|' -> [d,u] ; '7' -> [d,l]
+          where (d,l,u,r) = ((x,y+1),(x-1,y),(x,y-1),(x+1,y))
 
-parse :: String -> (A.Array (Int,Int) Char, (Int,Int))
-parse = fixStart . makeArray . makeAssocs
-  where makeAssocs txt = [((x,y),char) | (y,line)<-zip [0..] (lines txt), (x,char)<-zip [0..] line]
-        makeArray assocs = (A.array ((0,0),fst (last assocs)) assocs, head [xy | (xy,char)<-assocs, char=='S'])
-        fixStart (arr,start@(x,y)) = let
-            dirVal = (if arr A.! (x+1,y) `elem` "7-J" then 1 else 0)
-                   + (if arr A.! (x,y-1) `elem` "7|F" then 2 else 0)
-                   + (if arr A.! (x-1,y) `elem` "L-F" then 4 else 0)
-                   + (if arr A.! (x,y+1) `elem` "J|L" then 8 else 0)
-            fixedArr = arr A.// [(start,"...L.-J..F|.7..." !! dirVal)]
-          in (fixedArr,start)
+parse :: String -> (Array (Int,Int) Char, (Int,Int))
+parse = fixStart . makeGrid . makeAssocs
+  where makeAssocs txt = [((x,y),c) | (y,line)<-zip [0..] (lines txt), (x,c)<-zip [0..] line]
+        makeGrid assocs = (array ((0,0),fst (last assocs)) assocs, head [xy | (xy,c)<-assocs, c=='S'])
+        fixStart (grid,start@(x,y)) = let
+            dirVal = 1 * fromEnum (grid!(x+1,y)`elem`"7-J")
+                   + 2 * fromEnum (grid!(x,y-1)`elem`"7|F")
+                   + 4 * fromEnum (grid!(x-1,y)`elem`"L-F")
+                   + 8 * fromEnum (grid!(x,y+1)`elem`"J|L")
+            fixedGrid = grid // [(start,"...L.-J..F|.7..." !! dirVal)]
+          in (fixedGrid,start)
 
 {-NOTE old solution
 solve2 txt = length . filter isInside . filter (`notMember`dists) $ A.indices arr
