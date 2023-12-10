@@ -10,26 +10,38 @@ main = let day = "10" in do
 
 solve1 = maximum . Map.elems . uncurry runBfs . parse
 
-solve2 txt = length . filter (odd . crossings 0) . filter (`notMember`dists) $ indices grid
+solve2 txt = length . filter (odd . crossings 0) . filter (`notMember`loopElems) $ indices grid
   where (grid,start) = parse txt
-        dists = runBfs grid start
+        loopElems = runBfs grid start
         crossings n (x,y)
           | x < 0     = n
-          | (x,y)`notMember`dists || grid!(x,y) `notElem` "|LJ"
-                      = crossings n (x-1,y)
+          | (x,y)`notMember`loopElems || grid!(x,y) `notElem` "|LJ"
+                      = crossings n     (x-1,y)
           | otherwise = crossings (n+1) (x-1,y)
 
 runBfs :: Array (Int,Int) Char -> (Int,Int) -> Map (Int,Int) Int
 runBfs grid start = bfs (singleton start 0) [start]
   where bfs dists []           = dists
-        bfs dists (node:queue) = bfs dists' (queue++newNodes)
+        bfs dists (node:queue) = bfs newDists (queue++newNodes)
           where newNodes = filter (`notMember`dists) (neighbors node)
-                dists'   = foldr (`insert`(dists Map.! node + 1)) dists newNodes
+                newDists = foldr (`insert`(dists Map.! node + 1)) dists newNodes
         neighbors (x,y) = case grid!(x,y) of
           'L' -> [u,r] ; '-' -> [l,r] ; 'J' -> [l,u]
           'F' -> [d,r] ; '|' -> [d,u] ; '7' -> [d,l]
           where (d,l,u,r) = ((x,y+1),(x-1,y),(x,y-1),(x+1,y))
 
+parse :: String -> (Array (Int,Int) Char, (Int,Int))
+parse txt = (grid//[(start,"...L.-J..F|.7..."!!dir)], start)
+  where assocs = [((x,y),char) | (y,line)<-zip [0..] (lines txt),
+                                 (x,char)<-zip [0..] line]
+        grid = array ((0,0),fst (last assocs)) assocs
+        start@(x,y) = head [node | (node,char)<-assocs, char=='S']
+        dir = 1 * fromEnum (grid!(x+1,y)`elem`"7-J")
+            + 2 * fromEnum (grid!(x,y-1)`elem`"F|7")
+            + 4 * fromEnum (grid!(x-1,y)`elem`"L-F")
+            + 8 * fromEnum (grid!(x,y+1)`elem`"J|L")
+
+{-NOTE alternative parsing
 parse :: String -> (Array (Int,Int) Char, (Int,Int))
 parse = fixStart . makeGrid . makeAssocs
   where makeAssocs txt = [((x,y),c) | (y,line)<-zip [0..] (lines txt), (x,c)<-zip [0..] line]
@@ -41,6 +53,7 @@ parse = fixStart . makeGrid . makeAssocs
                    + 8 * fromEnum (grid!(x,y+1)`elem`"J|L")
             fixedGrid = grid // [(start,"...L.-J..F|.7..." !! dirVal)]
           in (fixedGrid,start)
+-}
 
 {-NOTE old solution
 solve2 txt = length . filter isInside . filter (`notMember`dists) $ A.indices arr
