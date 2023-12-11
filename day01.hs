@@ -11,9 +11,9 @@ solve1 = sum . map perLine . lines
 
 solve2 = sum . map perLine . lines
   where perLine = (\ds -> read [head ds,last ds]) . concatMap digitMatches . tails
-        digitMatches str = [digit | (token,digit)<-tokens, token`isPrefixOf`str]
-        tokens = zip (dwords ++ map pure "123456789") (cycle ['1'..'9'])
-        dwords = ["one","two","three","four","five","six","seven","eight","nine"]
+        digitMatches str = [digit | (word,digit)<-mapping, word`isPrefixOf`str]
+        mapping = zip (dwords ++ map pure "123456789") (cycle ['1'..'9'])
+        dwords  = ["one","two","three","four","five","six","seven","eight","nine"]
 
 {-NOTE old solution
 solve1 :: String -> Int
