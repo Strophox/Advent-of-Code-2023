@@ -1,8 +1,8 @@
 import Control.Arrow ((&&&))
 
 main = let day = "06" in do
-  putStrLn ("Opening Advent calendar door "<>day<>" where")
   txt <- readFile (day<>".txt")
+  putStrLn ("Opening Advent calendar door "<>day<>" where")
   putStrLn ("  part 1 = "<>show (solve1 txt))
   putStrLn ("  part 2 = "<>show (solve2 txt))
 
