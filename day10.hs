@@ -35,7 +35,7 @@ parse txt = (grid//[(start,"...L.-J..F|.7..."!!dir)], start)
   where assocs = [((x,y),char) | (y,line)<-zip [0..] (lines txt),
                                  (x,char)<-zip [0..] line]
         grid = array ((0,0),fst (last assocs)) assocs
-        start@(x,y) = head [node | (node,char)<-assocs, char=='S']
+        start@(x,y) = head [node | (node,'S')<-assocs]
         dir = 1 * fromEnum (grid!(x+1,y)`elem`"7-J")
             + 2 * fromEnum (grid!(x,y-1)`elem`"F|7")
             + 4 * fromEnum (grid!(x-1,y)`elem`"L-F")

@@ -10,13 +10,13 @@ main = let day = "11" in do
 solve1 = (`div`2) . sum . distances . coords
        . expand . transpose . expand . lines
   where
-    coords rows = [(x,y) | (y,row)<-zip [0..] rows, (x,c)<-zip [0..] row, c=='#']
+    coords rows = [(x,y) | (y,row)<-zip [0..] rows, (x,'#')<-zip [0..] row]
     expand = foldr (\x xs -> if all (=='.') x then x:x:xs else x:xs) []
 
 solve2 = (`div`2) . sum . distances . coords'
        . indexExpand . (transpose *** transpose) . indexExpand . (id &&& id) . lines
   where
-    coords' (_,rows) = [(x,y) | row<-rows, (x,(y,c))<-row, c=='#']
+    coords' (_,rows) = [(x,y) | row<-rows, (x,(y,'#'))<-row]
     indexExpand (xs,zs) = (xs, snd $ foldr index (0,[]) (zip xs zs))
     index (x,z) (i,izs) = (if all (=='.') x then i+1000000 else i+1,
                            zip [i,i..] z : izs)
