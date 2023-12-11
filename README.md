@@ -4,8 +4,9 @@
 # Code Summaries
 
 <details>
-<summary><h2><a href="https://adventofcode.com/2023/day/1">Day 1: Trebuchet?!</a></h2></summary>
-<details>
+  <summary>
+## Day 1: [Trebuchet?!](https://adventofcode.com/2023/day/1)
+  </summary>
 Part 1 works by simply extracting all the digits from each line, and then reading the number made from the first and last digit.
 
 Part 2 is trickier, and can be solved by stopping at every position in the line and testing whether a digit name (or digit itself) matches (as prefix of) the remaining string.
