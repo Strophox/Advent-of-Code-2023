@@ -1,14 +1,20 @@
-# Advent-of-Code-2023
-[Advent of Code 2023](https://adventofcode.com/2023) - An attempt in Haskell.
+# [Advent-of-Code-2023](https://adventofcode.com/2023)
+Advent of Code 2023 - *An attempt in Haskell.*
 
-## Day Summaries
+> Personal goals:
+> 1. Have fun =)
+> 2. Keep the solutions **as 'basic' as possible** (e.g. minimize imports)
+> 3. Keep the solutions **reasonably idiomatic / readable** (e.g. don't golf too much)
+> 4. Keep the solutions **as minimal as possible** (e.g. write point-free functions)
 
-To explain how each day is approached see the following summaries (spoilers!)
+## Calendar Summary
+
+The following explain how each day is approached (spoilers!)
 
 
 <details>
 <summary>
-
+  
 ### Day 1: [Trebuchet?!](https://adventofcode.com/2023/day/1)
 
 </summary>
