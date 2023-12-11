@@ -7,11 +7,7 @@ To explain how each day is approached see the following summaries (spoilers!)
 
 
 <details>
-<summary>
-
-### Day 1: [Trebuchet?!](https://adventofcode.com/2023/day/1)
-
-</summary>
+<summary><h3>Day 1: <a href="https://adventofcode.com/2023/day/1">Trebuchet?!</a></h3></summary>
 
 Day 1 is about parsing some numbers out of some lines.
 - Part 1 works by simply extracting all the digits from each line, and then reading the number made from the first and last digit.
@@ -20,11 +16,7 @@ Day 1 is about parsing some numbers out of some lines.
 
 
 <details>
-<summary>
-
-### Day 2: [Cube Conundrum](https://adventofcode.com/2023/day/2)
-
-</summary>
+<summary><h3>Day 2: <a href="https://adventofcode.com/2023/day/2">Cube Conundrum</a></h3></summary>
 
 Day 2 is about handling sequences of number triples.
 - The main work is done in the parsing of the input:
@@ -35,11 +27,7 @@ We end up with a list of numbered 'games' which are essentially lists of `(r,g,b
 
 
 <details>
-<summary>
-
-### Day 3: [Gear Ratios](https://adventofcode.com/2023/day/3)
-
-</summary>
+<summary><h3>Day 3: <a href="https://adventofcode.com/2023/day/3">Gear Ratios</a></h3></summary>
 
 Day 3 is about parsing some numbers and symbols from a grid, and doing operations on the numbers depending on nearby symbols.
 - The parsing carries a bit (prepares all the numbers and symbols) and the `adjacent` function handily calculates all valid neighboring coordinates.
