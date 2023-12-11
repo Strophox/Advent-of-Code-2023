@@ -4,16 +4,20 @@
 # Code Summaries
 
 <details>
-  <summary>
+<summary>
 ## Day 1: [Trebuchet?!](https://adventofcode.com/2023/day/1)
-  </summary>
+</summary>
 Part 1 works by simply extracting all the digits from each line, and then reading the number made from the first and last digit.
 
 Part 2 is trickier, and can be solved by stopping at every position in the line and testing whether a digit name (or digit itself) matches (as prefix of) the remaining string.
 </details>
 
 <details>
-<summary><h2><a href="https://adventofcode.com/2023/day/2">Day 2: Cube Conundrum</a></h2></summary>
+<summary>
+
+## Day 2: [Cube Conundrum](https://adventofcode.com/2023/day/2)
+
+</summary>
 The main work is done in the parsing of the input:
 We end up with a list of numbered 'games' which are essentially lists of `(r,g,b)` triples.
 
