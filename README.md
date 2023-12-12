@@ -87,7 +87,7 @@ Day 5 is about mapping numbers between intervals, and then chaining several of t
 
 </summary>
 
-Day 6 is about finding the size of some intervals containing valid numbers (keyword: quadratic equation).
+Day 6 is about finding the size of some intervals containing valid numbers (keyword: quadratic equations.)
 - Part 1 simply bruteforces by checking all the numbers in the interval that satisfy the predicate.
 - Part 2 is easily feasible by bruteforce but can be efficiently and not much more complicatedly solved by finding roots of quadratics.
 </details>
@@ -113,7 +113,7 @@ Day 7 is about sorting some poker cards and then doing some evaluations based on
 
 </summary>
 
-Day 8 is about following some paths (/'multiple at once') until a node is reached (keyword: least common multiple).
+Day 8 is about following some paths (/'multiple at once') until a node is reached (keyword: least common multiple.)
 - We parse the 'graph' into a map for quicker access.
 - Part 1 does a simple walk from start to finish.
 - Part 2 does walks for all possible starts to their first finish, then takes the `lcm` of all.
@@ -157,4 +157,17 @@ Day 10 is about navigating a grid loop and calculating some area enclosed by it.
 Day 11 is about finding distances between grid points given that the grid has some expansion factor.
 - Part 1 is solved naïvely by inserting additional rows and then calculating the distance between the indexed galaxies.
 - Part 2 is done by doing custom indexing in each direction instead.
+</details>
+
+
+<details>
+<summary>
+
+### Day 12: [Hot Springs](https://adventofcode.com/2023/day/12)
+
+</summary>
+
+Day 12 is about playing a weird 1-dimensional nonogram (keyword: dynamic programming.)
+- Part 1 can be solved naïvely simply generating all possible branchings and counting the valid ones.
+- Part 2 shouldn't be done by bruteforce but DP on -the number of possibilities so far in the string-.
 </details>
