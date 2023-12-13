@@ -168,6 +168,19 @@ Day 11 is about finding distances between grid points given that the grid has so
 </summary>
 
 Day 12 is about playing a weird 1-dimensional nonogram (keyword: dynamic programming.)
-- Part 1 can be solved naïvely simply generating all possible branchings and counting the valid ones.
+- Part 1 can be solved naïvely simply by generating all possible branchings and counting the valid ones.
 - Part 2 shouldn't be done by bruteforce but DP on -the number of possibilities so far in the string-.
+</details>
+
+
+<details>
+<summary>
+
+### Day 13: [Point of Incidence](https://adventofcode.com/2023/day/13)
+
+</summary>
+
+Day 13 is about finding lines of symmetry in a plane of tiles.
+- Part 1 is solved by finding the lines of symmetry and tallying the indices in a way.
+- Part 2 is about findin lines of 'almost' symmetry, where only one tile is different in the mirroring.
 </details>
