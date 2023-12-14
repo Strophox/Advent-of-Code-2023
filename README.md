@@ -184,3 +184,16 @@ Day 13 is about finding lines of symmetry in a plane of tiles.
 - Part 1 is solved by finding the lines of symmetry and tallying the indices in a way.
 - Part 2 is about findin lines of 'almost' symmetry, where only one tile is different in the mirroring.
 </details>
+
+
+<details>
+<summary>
+
+### Day 14: [Parabolic Reflector Dish](https://adventofcode.com/2023/day/14)
+
+</summary>
+
+Day 14 is about sliding some rocks on a grid.
+- Part 1 is solved by implementing a function that goes through all rocks and tries to move them.
+- Part 2 is implementing board rotation, then doing the rotation cycle and intelligently figuring out when arrangements repeat do skip ahead doing the cycles.
+</details>

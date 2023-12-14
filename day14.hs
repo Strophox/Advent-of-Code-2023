@@ -10,16 +10,20 @@ main = let day = "14" in do
 
 solve1 = totalLoad . tilt . parse
 
-solve2 = totalLoad . iter fourTilt 1000000000 . parse
-  where fourTilt = rotate . tilt . rotate . tilt . rotate . tilt . rotate . tilt
-        rotate arr = let bnd@(_,(x',_)) = bounds arr
-                     in ixmap bnd (\(y,x) -> (x'-x,y)) arr
-        iter f it = go 0 M.empty where
+solve2 = totalLoad . iter tiltCycle 1000000000 . parse
+  where tiltCycle = rotate.tilt . rotate.tilt . rotate.tilt . rotate.tilt
+        rotate arr = let bnd@(_,(_,x1)) = bounds arr
+                     in ixmap bnd (\(y,x) -> (x1-x,y)) arr
+        iter f n = go 0 M.empty where
           go i hist arr
-            | i == it = arr
-            | arr`M.notMember`hist = go (i+1) (M.insert arr i hist) (f arr)
-            | otherwise = go iSkip M.empty arr
-            where iSkip = it - (it - i)`mod`(i - hist M.! arr)
+            | i == n            = arr
+            | arr`M.member`hist = go iSkip M.empty arr
+            | otherwise         = go (i+1) (M.insert arr i hist) (f arr)
+            where iSkip = n - (n - i)`mod`(i - hist M.! arr)
+
+totalLoad :: Array (Int,Int) Char -> Int
+totalLoad arr = sum [y1 - y | ((y,_),'O')<-assocs arr]
+  where y1 = (fst . snd . bounds) arr + 1
 
 tilt :: Array (Int,Int) Char -> Array (Int,Int) Char
 tilt arr = foldl' roll arr (indices arr)
@@ -28,14 +32,15 @@ tilt arr = foldl' roll arr (indices arr)
           | otherwise      = arr
           where y' = last $ y : takeWhile (\i -> arr!(i,x)=='.') [y-1,y-2..0]
 
-totalLoad :: Array (Int,Int) Char -> Int
-totalLoad arr = sum [maxY+1-y  | ((y,_),'O')<-assocs arr]
-  where maxY = (fst . snd) (bounds arr)
-
 parse :: String -> Array (Int,Int) Char
 parse txt = listArray ((0,0),(n,n)) (filter (/='\n') txt)
   where n = length (lines txt) - 1
 
+
+{-NOTE alternative LOC
+  where tiltCycle = rotate.tilt . rotate.tilt . rotate.tilt . rotate.tilt
+  where tiltCycle = foldr1 (.) (replicate 4 (rotate . tilt))}
+-}
 
 {-NOTE old debug stuff
 import Debug.Trace; dbg s v = trace ("> "<>s<>" "<>show v) v
