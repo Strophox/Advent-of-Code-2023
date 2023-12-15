@@ -197,3 +197,16 @@ Day 14 is about sliding some rocks on a grid.
 - Part 1 is solved by implementing a function that goes through all rocks and tries to move them.
 - Part 2 is implementing board rotation, then doing the rotation cycle and intelligently figuring out when arrangements repeat do skip ahead doing the cycles.
 </details>
+
+
+<details>
+<summary>
+
+### Day 15: [Lens Library](https://adventofcode.com/2023/day/15)
+
+</summary>
+
+Day 14 is about simulating operations on small datastructures.
+- Part 1 is solved by implementing a correct 'hashing' function that turns a string into a number.
+- Part 2 is implementing a machine that takes instructions on lenses identified by strings and their value (1-9), and updates small 'boxes' containing them.
+</details>
