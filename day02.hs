@@ -9,6 +9,29 @@ main = let day = "02" in do
 
 solve1 :: String -> Int
 solve1 = sum . map fst . filter (all valid . snd) . parse
+  where valid (r,g,b) = r <= 12 && g <= 13 && b <= 14
+
+solve2 :: String -> Int
+solve2 = sum . map perGame . parse
+  where perGame = product' . foldr1 max' . snd
+        max' (r,g,b) (r',g',b') = (max r r', max g g', max b b')
+        product' (r,g,b) = r * g * b
+
+parse :: String -> [(Int,[(Int,Int,Int)])]
+parse = map perLine . lines
+  where perLine = (read *** (map perSet . splitOn "; " . drop 1)) . break (==':') . drop 5
+        perSet = foldr build (0,0,0) . map perEntry . splitOn ", "
+        perEntry = ((read . (!!0)) &&& (!!1)) . words
+        build (i,color) (r,g,b) = case color of
+          "red"   -> (r+i,g,b)
+          "green" -> (r,g+i,b)
+          "blue"  -> (r,g,b+i)
+
+
+{-NOTE old solution
+
+solve1 :: String -> Int
+solve1 = sum . map fst . filter (all valid . snd) . parse
   where valid cset = red cset <= 12 && green cset <= 13 && blue cset <= 14
 
 solve2 :: String -> Int
@@ -32,3 +55,4 @@ parse = map perLine . lines
           "red" -> cset { red = i }
           "blue" -> cset { blue = i }
           "green" -> cset { green = i }
+-}

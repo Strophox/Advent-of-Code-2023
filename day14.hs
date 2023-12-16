@@ -38,11 +38,12 @@ parse txt = listArray ((0,0),(n,n)) (filter (/='\n') txt)
 
 
 {-NOTE alternative LOC
+
   where tiltCycle = rotate.tilt . rotate.tilt . rotate.tilt . rotate.tilt
-  where tiltCycle = foldr1 (.) (replicate 4 (rotate . tilt))}
--}
+  where tiltCycle = foldr1 (.) (replicate 4 (rotate . tilt))}-}
 
 {-NOTE old debug stuff
+
 import Debug.Trace; dbg s v = trace ("> "<>s<>" "<>show v) v
 
 main = do
@@ -62,5 +63,4 @@ main = do
     showArr arr = unlines $ map (map snd) $ groupBy ((==)`on`fst.fst) $ sort $ assocs arr
     rotate arr = let bnd@(_,(x',_)) = bounds arr
                  in ixmap bnd (\(y,x) -> (x'-x,y)) arr
-    fourTilt = rotate . tilt . rotate . tilt . rotate . tilt . rotate . tilt
--}
+    fourTilt = rotate . tilt . rotate . tilt . rotate . tilt . rotate . tilt-}

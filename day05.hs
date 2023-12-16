@@ -2,8 +2,6 @@ import Data.List
 import Data.List.Split (splitOn)
 import Control.Monad ((>=>))
 import Control.Arrow ((>>>),(&&&),(***))
---import Debug.Trace
---dbg marker x = trace ("> "<>marker<>" "<>show x) x
 
 main = let day = "05" in do
   txt <- readFile (day<>".txt")
@@ -48,13 +46,15 @@ chainr = foldr (>>>) id
 bindr :: (Foldable t,Monad m) => t (a -> m a) -> a -> m a
 bindr = foldr (>=>) return
 
+
 {-NOTE old solution
+
 solve1 = minimum . applyMaps . parse
   where applyMaps (seeds,maps) = map (chainr (converter <$> maps)) seeds
-        converter mapping v = foldr (\(dst,src,len) x -> if src<=v&&v<src+len then v-src+dst else x) v mapping
--}
+        converter mapping v = foldr (\(dst,src,len) x -> if src<=v&&v<src+len then v-src+dst else x) v mapping-}
 
 {-NOTE unused helpers
+
 chainl :: Foldable t => t (a -> a) -> (a -> a)
 chainl = foldr (.) id
 
@@ -73,5 +73,4 @@ bindl = foldr (<=<) return
 -- Maybe we should call them
 --   chainf, bindf (function; or forward..)
 --   chainb, bindb (binding; or backward..)
--- instead?? that may make it even more confusing xD
--}
+-- instead?? that may make it even more confusing xD -}

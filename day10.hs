@@ -41,7 +41,9 @@ parse txt = (grid//[(start,"...L.-J..F|.7..."!!dir)], start)
             + 4 * fromEnum (grid!(x-1,y)`elem`"L-F")
             + 8 * fromEnum (grid!(x,y+1)`elem`"J|L")
 
-{-NOTE alternative parsing
+
+{-NOTE alternative parse
+
 parse :: String -> (Array (Int,Int) Char, (Int,Int))
 parse = fixStart . makeGrid . makeAssocs
   where makeAssocs txt = [((x,y),c) | (y,line)<-zip [0..] (lines txt), (x,c)<-zip [0..] line]
@@ -52,10 +54,10 @@ parse = fixStart . makeGrid . makeAssocs
                    + 4 * fromEnum (grid!(x-1,y)`elem`"L-F")
                    + 8 * fromEnum (grid!(x,y+1)`elem`"J|L")
             fixedGrid = grid // [(start,"...L.-J..F|.7..." !! dirVal)]
-          in (fixedGrid,start)
--}
+          in (fixedGrid,start)-}
 
-{-NOTE old solution
+{-NOTE old solve2
+
 solve2 txt = length . filter isInside . filter (`notMember`dists) $ A.indices arr
   where (arr,start) = parse txt
         dists = runBfs arr start
@@ -73,5 +75,4 @@ solve2 txt = length . filter isInside . filter (`notMember`dists) $ A.indices ar
             _   -> (state, n) )
 
 data State = FromTop | FromBot | Neutral
-  deriving (Eq)
--}
+  deriving (Eq)-}

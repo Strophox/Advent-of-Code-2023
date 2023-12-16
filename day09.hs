@@ -17,7 +17,8 @@ extrapolate ns
 parse :: String -> [[Int]]
 parse = map (map read . words) . lines
 
+
 {-NOTE old solution
+
 diffs (a:b:cs) = (b-a) : diffs (b:cs)
-diffs _ = []
--}
+diffs _ = []-}

@@ -98,15 +98,14 @@ solve2 = sum . concat
         update lens val [] = [(lens,val)]
         update lens val ((k,v):kvs)
           | k == lens = (k,val) : kvs
-          | otherwise = (k,v) : update lens val kvs
--}
+          | otherwise = (k,v) : update lens val kvs-}
 
 {-NOTE old solve2 parts
+
 solve2 = sum . concat
        . map (zipWith (*) [1..]) . zipWith (map . (*)) [1..]
        . map (map (read.snd))
        ...
 
         remove lens = foldr (\(k,v) kvs -> if k==lens then kvs else (k,v):kvs) []
-        remove lens = filter ((/=lens).snd)
--}
+        remove lens = filter ((/=lens).snd)-}

@@ -15,7 +15,9 @@ solve2 = sum . map perLine . lines
         mapping = zip (dwords ++ map pure "123456789") (cycle ['1'..'9'])
         dwords  = ["one","two","three","four","five","six","seven","eight","nine"]
 
+
 {-NOTE old solution
+
 solve1 :: String -> Int
 solve1 = solveWith (map pure ['1'..'9'])
 
@@ -25,10 +27,10 @@ solve2 = solveWith (map pure ['1'..'9'] ++ ["one","two","three","four","five","s
 solveWith :: [String] -> String -> Int
 solveWith tokens = sum . map perLine . lines
   where perLine = (\ds -> read [head ds,last ds]) . concatMap prefixMatches . tails
-        prefixMatches str = [digit | (token,digit) <- tokens`zip`cycle ['1'..'9'], token`isPrefixOf`str]
--}
+        prefixMatches str = [digit | (token,digit) <- tokens`zip`cycle ['1'..'9'], token`isPrefixOf`str]-}
 
 {-NOTE solution variant
+
 aux :: (String -> [Char]) -> String -> Int
 aux lineToDigits = sum . map (read . (\ds -> [head ds,last ds]) . lineToDigits) . lines
 
@@ -38,15 +40,14 @@ solve1 = aux (filter (`elem`['0'..'9']))
 solve2 :: String -> Int
 solve2 = aux (concatMap prefixMatches . inits)
   where prefixMatches str = [digit | (token,digit)<-dict, token`isPrefixOf`str]
-        dict = zip  ["0","1","2","3","4","5","6","7","8","9","zero","one","two","three","four","five","six","seven","eight","nine"] (cycle ['0'..'9'])
--}
+        dict = zip  ["0","1","2","3","4","5","6","7","8","9","zero","one","two","three","four","five","six","seven","eight","nine"] (cycle ['0'..'9'])-}
 
-{-NOTE previous, faulty - parses "oneight" as only "1" because discarding
+{-NOTE previous code, faulty: parses "oneight" as only "1" because discarding
+
 lineDigits2 :: String -> String
 lineDigits2 = fst . foldl step ([],[])
   where step (ds,cs) c = maybe (ds,cs++[c]) (\d -> (ds++[d],[])) (dict`parseMatch`(cs++[c]))
         dict = zip ["0","1","2","3","4","5","6","7","8","9","zero","one","two","three","four","five","six","seven","eight","nine"] (cycle ['0'..'9'])
 
 parseMatch :: [(String,Char)] -> String -> Maybe Char
-parseMatch dict str = listToMaybe [d | (token,d)<-dict, token`isSuffixOf`str]
--}
+parseMatch dict str = listToMaybe [d | (token,d)<-dict, token`isSuffixOf`str]-}

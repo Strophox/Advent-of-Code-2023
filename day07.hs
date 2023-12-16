@@ -21,6 +21,7 @@ parse = map ((head &&& read . last) . words) . lines
 getIndex :: Eq a => a -> [a] -> Int
 getIndex x xs = maybe (error "not found") id (elemIndex x xs)
 
+
 {-NOTE old solution
 solve1 = sum . map (\(i,(_,b)) -> i * b) . zip [1..] . sortOn (evalHand . fst) . parse
   where
@@ -46,10 +47,10 @@ types = [ [1,1,1,1,1] -- High card
         , [2,3]       -- Full house
         , [1,4]       -- Four of a kind
         , [5]         -- Five of a kind
-        ]
--}
+        ]-}
 
 {-NOTE old solution
+
 --import Data.Function (on)
 
 --...
@@ -102,5 +103,4 @@ types = [ [1,1,1,1,1] -- High card
 
 parse2 :: String -> [(Hand2, Int)]
 parse2 = map perLine . lines
-  where perLine = (Hand2 . map Card2 . head &&& read . last) . words
--}
+  where perLine = (Hand2 . map Card2 . head &&& read . last) . words-}

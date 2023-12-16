@@ -22,11 +22,12 @@ findMirrorBy cmp = sum . map succ . findIndices cmp . init . tail . splits
 parse :: String -> [[[Char]]]
 parse = map lines . splitOn "\n\n"
 
-{-NOTE initial solution
+
+{-NOTE initial solve1
+
 solve1 = uncurry (+)
       . ((100*) . sum *** sum)
       . (concatMap mirrorings &&& concatMap (mirrorings . transpose)) . parse
   where mirrorings = init . tail . findIndices equalSided . mirrorSplits
         equalSided (xs,ys) = and (zipWith (==) xs ys)
-        mirrorSplits = zip <$> tails <*> reverse . tails . reverse
--}
+        mirrorSplits = zip <$> tails <*> reverse . tails . reverse-}

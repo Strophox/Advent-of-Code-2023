@@ -21,7 +21,9 @@ parse1 = uncurry zip . (head &&& last) . map (map read . tail . words) . lines
 parse2 :: String -> (Double,Double)
 parse2 = (head &&& last) . map (read . filter (/=' ') . drop 9) . lines
 
+
 {-NOTE old solution, naïve part 2
+
 solve1 = solveWith parse1
 
 solve2 = solveWith parse2
@@ -33,10 +35,10 @@ parse1 :: String -> [(Int,Int)]
 parse1 = uncurry zip . (head &&& last) . map (map read . tail . words) . lines
 
 parse2 :: String -> [(Int,Int)]
-parse2 = (:[]) . (head &&& last) . map (read . filter (/=' ') . drop 9) . lines
--}
+parse2 = (:[]) . (head &&& last) . map (read . filter (/=' ') . drop 9) . lines-}
 
 {-NOTE on the problem statement
+
 Given t,d we solve for all times x with
   x * (t - x) > d
 Accomplish this by using
@@ -46,5 +48,4 @@ Accomplish this by using
 and applying it on
   tx - x² - d = 0  |  a = -1, b = t, c = -d
 <=>
-  x = (-t +- sqrt (t^2 - 4*d)) / (-2)
--}
+  x = (-t +- sqrt (t^2 - 4*d)) / (-2) -}

@@ -37,7 +37,9 @@ parse :: String -> Array (Int,Int) Char
 parse txt = listArray ((0,0),(n,n)) (filter (/='\n') txt)
   where n = length (lines txt) - 1
 
+
 {-NOTE old snippet
+
         neighbors ((y,x),dir) =
           let [rt,up,lf,dn] = [((y,x+1),Rt),((y-1,x),Up),((y,x-1),Lf),((y+1,x),Dn)]
               c = grid!(y,x)
@@ -57,6 +59,7 @@ listIf False _ = []
 -}
 
 {-NOTE old snippet
+
         neighbors ((y,x),dir) = filter (inRange (bounds grid) . fst) $
           case (grid!(y,x),dir) of
             ('.', Rt) -> [((y,x+1),Rt)]

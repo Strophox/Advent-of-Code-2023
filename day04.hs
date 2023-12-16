@@ -19,11 +19,12 @@ parse :: String -> [([Int], [Int])]
 parse = map perLine . lines
   where perLine = (map read *** map read . drop 1) . break (=="|") . words . drop 9
 
+
 {-NOTE old solution
+
 solve1 = sum . map perCard . parse
   where perCard = (\i -> if i==0 then 0 else 2^(i-1)) . length . uncurry intersect
 
 solve2 = fst . fst . cascade . map (length . uncurry intersect) . parse
   where cascade vals = until (null . snd) step ((0, vals), const 1 <$> vals)
-        step ((tally, s:ss), c:cs) = ((tally+c, ss), zipWith (+) (replicate s c ++ repeat 0) cs)
--}
+        step ((tally, s:ss), c:cs) = ((tally+c, ss), zipWith (+) (replicate s c ++ repeat 0) cs)-}
