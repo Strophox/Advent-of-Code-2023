@@ -206,7 +206,20 @@ Day 14 is about sliding some rocks on a grid.
 
 </summary>
 
-Day 14 is about simulating operations on small datastructures.
+Day 15 is about simulating operations on small datastructures.
 - Part 1 is solved by implementing a correct 'hashing' function that turns a string into a number.
 - Part 2 is implementing a machine that takes instructions on lenses identified by strings and their value (1-9), and updates small 'boxes' containing them.
+</details>
+
+
+<details>
+<summary>
+
+### Day 16: [The Floor Will Be Lava](https://adventofcode.com/2023/day/16)
+
+</summary>
+
+Day 16 is about simulating moving particles on a grid and the cells they trace out.
+- Part 1 is solved by implementing BFS on the n-by-n-by-4 graph where nodes are connected depending on being neighbors in the grid and into which direction one is facing.
+- Part 2 is done by running part 1 on all given starting nodes.
 </details>

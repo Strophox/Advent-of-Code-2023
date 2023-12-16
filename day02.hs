@@ -26,7 +26,7 @@ data CSet = CSet
 parse :: String -> [(Int,[CSet])]
 parse = map perLine . lines
   where perLine = (read *** (map perSet . splitOn "; " . drop 1)) . break (==':') . drop 5
-        perSet = foldr build CSet{red=0,green=0,blue=0} . map perEntry . splitOn ", "
+        perSet = foldr build (CSet 0 0 0) . map perEntry . splitOn ", "
         perEntry = ((read . (!!0)) &&& (!!1)) . words
         build (i,color) cset = case color of
           "red" -> cset { red = i }
