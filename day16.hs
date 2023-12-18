@@ -7,35 +7,42 @@ main = let day = "16" in do
   putStrLn ("  part 1 = "<>show (solve1 txt))
   putStrLn ("  part 2 = "<>show (solve2 txt))
 
-solve1 txt = (S.size . S.map fst . runDfs grid) ((0,0),Rt)
+solve1 txt = countCovered grid start
   where grid = parse txt
+        start = ((0,0),Rt)
 
-solve2 txt = maximum $ (S.size . S.map fst . runDfs grid) <$> edgeStarts
+solve2 txt = maximum (countCovered grid <$> edgeStarts)
   where grid = parse txt
-        ((y0,x0),(y1,x1)) = bounds grid
         edgeStarts = [((y,x0),Rt) | y<-[y0..y1]] ++ [((y1,x),Up) | x<-[x0..x1]] ++
                      [((y,x1),Lf) | y<-[y0..y1]] ++ [((y0,x),Dn) | x<-[x0..x1]]
+        ((y0,x0),(y1,x1)) = bounds grid
 
 data Dir = Rt | Up | Lf | Dn
   deriving (Eq,Ord)
 
-runDfs :: Array (Int,Int) Char -> ((Int,Int),Dir) -> S.Set ((Int,Int),Dir)
-runDfs grid start = dfs (S.singleton start) [start]
-  where dfs seen []           = seen
-        dfs seen (node:queue) = dfs newSeen (newNodes++queue)
-          where newNodes = filter (`S.notMember`seen) (neighbors node)
-                newSeen  = foldr S.insert seen newNodes
-        neighbors ((y,x),dir) = filter (inRange (bounds grid) . fst) (case dir of
+countCovered :: Array (Int,Int) Char -> ((Int,Int),Dir) -> Int
+countCovered grid start = (S.size . S.map fst) (dfs neighbors [start])
+  where neighbors ((y,x),dir) = let
+          c = grid!(y,x)
+          [r,u,l,d] = [((y,x+1),Rt),((y-1,x),Up),((y,x-1),Lf),((y+1,x),Dn)]
+          candidates = case dir of
             Rt -> [n | (cs,n)<-[(".-",r),("/|",u),("\\|",d)], c`elem`cs]
             Up -> [n | (cs,n)<-[(".|",u),("/-",r),("\\-",l)], c`elem`cs]
             Lf -> [n | (cs,n)<-[(".-",l),("/|",d),("\\|",u)], c`elem`cs]
-            Dn -> [n | (cs,n)<-[(".|",d),("/-",l),("\\-",r)], c`elem`cs] )
-          where c = grid!(y,x)
-                [r,u,l,d] = [((y,x+1),Rt),((y-1,x),Up),((y,x-1),Lf),((y+1,x),Dn)]
+            Dn -> [n | (cs,n)<-[(".|",d),("/-",l),("\\-",r)], c`elem`cs]
+         in filter (inRange (bounds grid) . fst) candidates
 
 parse :: String -> Array (Int,Int) Char
 parse txt = listArray ((0,0),(n,n)) (filter (/='\n') txt)
   where n = length (lines txt) - 1
+
+dfs :: Ord a => (a -> [a]) -> [a] -> S.Set a
+dfs neighbors starts = run (S.fromList starts) starts
+  where run seen [] = seen
+        run seen (node:stack) = run seen' stack'
+          where seen'  = foldr S.insert seen newNodes
+                stack' = newNodes ++ stack
+                newNodes = filter (`S.notMember`seen) (neighbors node)
 
 
 {-NOTE old snippet
