@@ -37,12 +37,15 @@ parse txt = listArray ((0,0),(n,n)) (filter (/='\n') txt)
   where n = length (lines txt) - 1
 
 dfs :: Ord a => (a -> [a]) -> [a] -> S.Set a
-dfs neighbors starts = run (S.fromList starts) starts
-  where run seen [] = seen
-        run seen (node:stack) = run seen' stack'
-          where seen'  = foldr S.insert seen newNodes
-                stack' = newNodes ++ stack
-                newNodes = filter (`S.notMember`seen) (neighbors node)
+dfs neighbors starts = run (S.fromList starts) starts where
+  run seen stack
+    | null stack = seen
+    | otherwise  = run seen' stack'
+    where (node:rest) = stack
+          newNodes = [n | n<-neighbors node, n`S.notMember`seen]
+          seen'  = foldr S.insert seen newNodes
+          stack' = newNodes ++ rest
+
 
 
 {-NOTE old snippet
