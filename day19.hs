@@ -16,9 +16,9 @@ main = let day = "19" in do
 solve1 txt = sum $ sum <$> filter (workflows !> "in") parts
   where (workflows,parts) = parse1 txt
 
-solve2 txt = sum $ size <$> (workflows !> "in") (0,4000)
+solve2 txt = undefined{-sum $ size <$> (workflows !> "in") (0,4000)
   where workflows = parse2 txt
-        size r = undefined
+        size r = undefined-}
 
 type Part = [Int]
 type Workflow = Part -> Bool
@@ -40,7 +40,7 @@ makeWorkflow rules workflows part = foldr check (call (last rules) part) (init r
         call s = case s of
           "A" -> const True ; "R" -> const False ; w -> workflows !> w
 
-type PartRange = [(Int,Int)]
+{-type PartRange = [(Int,Int)]
 type RangeWorkflow = PartRange -> PartRange
 
 parse2 :: String -> [(String, RangeWorkflow)]
@@ -57,7 +57,7 @@ makeRangeWorkflow rules workflows partr = foldr check (call (last rules) partr) 
             num = read ds
           in if field`cmp`num then call dest partr ++ rest partr''
         call s = case s of
-          "A" -> const True ; "R" -> const False ; w -> workflows !> w
+          "A" -> const True ; "R" -> const False ; w -> workflows !> w-}
 
 {-NOTE c.f.
 fix :: ((a -> b) -> (a -> b)) -> (a -> b)
