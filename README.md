@@ -3,9 +3,18 @@ Advent of Code 2023 - *An attempt in Haskell.*
 
 > Personal goals:
 > 1. Have fun =)
-> 2. Keep the solutions **as 'basic' as possible** (e.g. minimize imports)
-> 3. Keep the solutions **reasonably idiomatic / readable** (e.g. don't golf too much)
-> 4. Keep the solutions **as minimal as possible** (e.g. write point-free functions)
+> 2. Keep the solutions **as minimal/basic as possible** (e.g. few imports)
+> 3. Keep the solutions **reasonably idiomatic / readable** (e.g. don't golf too much, have good names)
+
+Additionally, I often wrote pointfree functions where possible.
+
+## Libraries
+
+Out of obvious convenience I made use of non-*base* libraries, however in a limited way:
+- *(base)* `Data.List` , `Control.Arrow`, `Debug.Trace`, `Data.Function`, `Control.Monad` for individual useful functions; `List` is used most liberally, followed by regular use of `(***)` and `(&&&)` from `Arrow`.
+- *(split)* `Data.List.Split`'s `splitOn` for parsing... and nothing else :P
+- *(array)* `Data.Array` for lazy arrays (e.g. DP problems).
+- *(containers)* `Data.Map.Strict`, `Data.Set`
 
 ## Calendar Summary
 
@@ -87,7 +96,7 @@ Day 5 is about mapping numbers between intervals, and then chaining several of t
 
 </summary>
 
-Day 6 is about finding the size of some intervals containing valid numbers (keyword: quadratic equations.)
+Day 6 is about finding the size of some intervals containing valid numbers (keyword: quadratic equations).
 - Part 1 simply bruteforces by checking all the numbers in the interval that satisfy the predicate.
 - Part 2 is easily feasible by bruteforce but can be efficiently and not much more complicatedly solved by finding roots of quadratics.
 </details>
@@ -113,7 +122,7 @@ Day 7 is about sorting some poker cards and then doing some evaluations based on
 
 </summary>
 
-Day 8 is about following some paths (/'multiple at once') until a node is reached (keyword: least common multiple.)
+Day 8 is about following some paths (/'multiple at once') until a node is reached (keyword: least common multiple).
 - We parse the 'graph' into a map for quicker access.
 - Part 1 does a simple walk from start to finish.
 - Part 2 does walks for all possible starts to their first finish, then takes the `lcm` of all.
@@ -167,7 +176,7 @@ Day 11 is about finding distances between grid points given that the grid has so
 
 </summary>
 
-Day 12 is about playing a weird 1-dimensional nonogram (keyword: dynamic programming.)
+Day 12 is about playing a weird 1-dimensional nonogram (keyword: dynamic programming).
 - Part 1 can be solved naïvely simply by generating all possible branchings and counting the valid ones.
 - Part 2 shouldn't be done by bruteforce but DP on -the number of possibilities so far in the string-.
 </details>
@@ -222,4 +231,43 @@ Day 15 is about simulating operations on small datastructures.
 Day 16 is about simulating moving particles on a grid and the cells they trace out.
 - Part 1 is solved by implementing BFS on the n-by-n-by-4 graph where nodes are connected depending on being neighbors in the grid and into which direction one is facing.
 - Part 2 is done by running part 1 on all given starting nodes.
+</details>
+
+
+<details>
+<summary>
+
+### Day 17: [Clumsy Crucible](https://adventofcode.com/2023/day/17)
+
+</summary>
+
+Day 17 is about seeking the most efficient way to move crucibles (limited in movement) over some tiles (keyword: Dijkstra).
+- Part 1 is solved by implementing Dijkstra's algorithm and generating the right neighbors for each node: A simplified idea is to always generate all possible distances one could walk sideways at once and so never allow going straight twice in a row.
+- Part 2 is done by adjusting the distances by which neighbors are emitted.
+</details>
+
+
+<details>
+<summary>
+
+### Day 18: [Lavaduct Lagoon](https://adventofcode.com/2023/day/18)
+
+</summary>
+
+Day 18 is about calculating the area enclosed by a path.
+- Part 1 is solved by implementing the 'shoelace formula', not missing the linear factor added by the fact that the path carved has half a stripe not accounted for by the formula.
+- Part 2 is done by adjusting how the input is carved.
+</details>
+
+
+<details>
+<summary>
+
+### Day 19: [Aplenty](https://adventofcode.com/2023/day/19)
+
+</summary>
+
+Day 19 is about implementing a virtual filtering process that accepts or rejects 'parts' defined by certain integer attributes and is able to jump between filtering subroutines.
+- Part 1 implements the parser which does the bulk of the work (i.e. converting the subroutines into actual filtering functions), then each part is sent through the apparatus starting at subroutine called "in".
+- Part 2 differs since it does not work with individual parts and immediately jumps between subroutines, but instead handles entire part ranges and splits the intervals at each branch until the end.
 </details>

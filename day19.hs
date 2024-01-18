@@ -17,7 +17,7 @@ solve1 txt = sum . map rating . filter (workflows!>"in") $ parts
   where (workflows,parts) = parse1 txt
         rating = sum
 
-solve2 txt = sum . map size . (rangeWorkflows!>"in") $ replicate 4 (0,4000)
+solve2 txt = sum . map size . (rangeWorkflows!>"in") $ replicate 4 (1,4000)
   where rangeWorkflows = parse2 txt
         size = product . map (\(a,b) -> b-a+1)
 
@@ -39,7 +39,7 @@ buildWorkflow rules workflows part = foldr check (call (last rules) part) (init 
           cmp = case c of '>' -> (>); '<' -> (<)
           n = read num
           in if field`cmp`n then call fn part else next
-        call fn = case fn of "A" -> pure True; "R" -> pure False; str -> workflows!>str
+        call fn = case fn of "A" -> const True; "R" -> const False; str -> workflows!>str
 
 type PartRange = [(Int,Int)]
 type RangeWorkflow = PartRange -> [PartRange]
@@ -60,7 +60,7 @@ buildRangeWorkflow rules workflows partRng = foldr branch (call (last rules)) (i
             (b1,b0) = case c of '>' -> ((n+1,r),(l,n)); '<' -> ((l,n-1),(n,r))
             in (as++b1:cs, as++b0:cs)
           in call fn thenRng ++ next elseRng {-FIXME-}
-        call fn = case fn of "A" -> (:[]); "R" -> const []; str -> workflows!>str
+        call fn = case fn of "A" -> pure; "R" -> pure []; str -> workflows!>str
 
 infixl 9 !>
 (!>) :: (Eq a)=> [(a,b)] -> a -> b
