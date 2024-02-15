@@ -8,8 +8,7 @@ Advent of Code 2023 - *An attempt in Haskell.*
 
 Additionally, I often wrote pointfree functions where possible.
 
-**Status of this repository:**
-
+**Status of this repository:**\
 *Days 20(pt2), 21, 22, 23, 24, 25 TBD.*
 
 
@@ -17,13 +16,14 @@ Additionally, I often wrote pointfree functions where possible.
 
 Out of obvious convenience I made use of non-*base* libraries, however in a limited way:
 - *(base)* `Data.List` , `Control.Arrow`, `Debug.Trace`, `Data.Function`, `Control.Monad` for individual useful functions; `List` is used most liberally, followed by regular use of `(***)` and `(&&&)` from `Arrow`.
-- *(split)* `Data.List.Split`'s `splitOn` for parsing... and nothing else :P
+- *(split)* `Data.List.Split`'s `splitOn` for ad-hoc parsing... and nothing else :P
 - *(array)* `Data.Array` for lazy arrays (e.g. DP problems).
 - *(containers)* `Data.Map.Strict`, `Data.Set`
+- *(hashtables)* `Data.HashTable.Class`, `Data.HashTable.ST.Cuckoo`, used for day 20 and 'TBD'
 
 ## Calendar Summary
 
-The following explain how each day is approached (spoilers!)
+The following are mini descriptions for the technical problem each day (spoilers!)
 
 
 <details>
