@@ -8,6 +8,11 @@ Advent of Code 2023 - *An attempt in Haskell.*
 
 Additionally, I often wrote pointfree functions where possible.
 
+**Status of this repository:**
+
+*Days 20(pt2), 21, 22, 23, 24, 25 TBD.*
+
+
 ## Libraries
 
 Out of obvious convenience I made use of non-*base* libraries, however in a limited way:
@@ -270,4 +275,73 @@ Day 18 is about calculating the area enclosed by a path.
 Day 19 is about implementing a virtual filtering process that accepts or rejects 'parts' defined by certain integer attributes and is able to jump between filtering subroutines.
 - Part 1 implements the parser which does the bulk of the work (i.e. converting the subroutines into actual filtering functions), then each part is sent through the apparatus starting at subroutine called "in".
 - Part 2 differs since it does not work with individual parts and immediately jumps between subroutines, but instead handles entire part ranges and splits the intervals at each branch until the end.
+</details>
+
+
+<details>
+<summary>
+
+### Day 20: [Pulse Propagation](https://adventofcode.com/2023/day/20)
+
+</summary>
+
+Day 20 is about implementing modules/gates that send each other pulses under certain conditions, TODO.
+- Part 1 implements the modules and how they communicate with each other using an 'pulse event queue'.
+- Part 2 TODO.
+</details>
+
+---
+
+<details>
+<summary>
+
+### Day 21: [Step Counter](https://adventofcode.com/2023/day/21)
+
+</summary>
+
+TODO.
+</details>
+
+
+<details>
+<summary>
+
+### Day 22: [Sand Slabs](https://adventofcode.com/2023/day/22)
+
+</summary>
+
+TODO.
+</details>
+
+
+<details>
+<summary>
+
+### Day 23: [A Long Walk](https://adventofcode.com/2023/day/23)
+
+</summary>
+
+TODO.
+</details>
+
+
+<details>
+<summary>
+
+### Day 24: [Never Tell Me The Odds](https://adventofcode.com/2023/day/24)
+
+</summary>
+
+TODO.
+</details>
+
+
+<details>
+<summary>
+
+### Day 25: [Snowverload](https://adventofcode.com/2023/day/25)
+
+</summary>
+
+TODO.
 </details>
